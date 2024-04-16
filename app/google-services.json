@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "180930168724",
+    "firebase_url": "https://sistemasolis-6c075-default-rtdb.firebaseio.com",
+    "project_id": "sistemasolis-6c075",
+    "storage_bucket": "sistemasolis-6c075.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180930168724:android:638e57ef0b1d8a78097181",
+        "android_client_info": {
+          "package_name": "com.aldosolis.systemsales"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACMR7ET439WE_m3o6cyFP39-YTwwq8ZQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180930168724:android:dab9ecaa00d5a630097181",
+        "android_client_info": {
+          "package_name": "com.example.sistemasolis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACMR7ET439WE_m3o6cyFP39-YTwwq8ZQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
