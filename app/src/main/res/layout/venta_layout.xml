@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/gris">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp"
+                    android:layout_margin="20dp"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="280dp"
+                        android:layout_height="280dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvTitulo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_marginTop="16dp"
+                                    android:text="Agregar Venta"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvFecha"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="100dp"
+                                    android:layout_marginTop="15dp"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="serif-monospace"
+                                    android:text="##/##/##"
+                                    android:textSize="12dp"
+
+                                    />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="5dp">
+
+                                <TextView
+                                    android:id="@+id/textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"
+                                    android:textSize="18dp"
+                                    android:text="S/"
+                                    android:layout_marginTop="25dp"
+                                    android:layout_marginStart="5dp"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+
+                                        android:text="Cantidad Recibida"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp"
+
+                                        />
+
+                                    <EditText
+                                        android:id="@+id/etCantidadRecibida"
+                                        android:layout_width="240dp"
+                                        android:layout_height="45dp"
+                                        android:fontFamily="serif-monospace"
+                                        android:hint="0.00"
+                                        android:inputType="text"
+                                        android:textColor="@color/black"
+                                        android:textSize="17dp"
+                                        android:textStyle="bold"
+                                        android:backgroundTint="@color/morado"
+                                        android:backgroundTintMode="multiply"/>
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:layout_marginStart="20dp"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:text="Correlativo"
+                                        android:textSize="12dp"
+
+                                        />
+
+                                    <EditText
+                                        android:id="@+id/etNumFactura"
+                                        android:layout_width="105dp"
+                                        android:layout_height="35dp"
+                                        android:textColor="@color/black"
+                                        android:enabled="false"
+                                        android:hint="N° Factura"
+                                        android:inputType="text"
+                                        android:textSize="14dp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="5dp"
+                                        android:text="Cliente"
+                                        android:textSize="12dp"
+                                        android:textColor="@color/black"/>
+
+                                    <EditText
+                                        android:id="@+id/etCliente"
+                                        android:layout_width="100dp"
+                                        android:layout_height="35dp"
+                                        android:layout_marginStart="5dp"
+                                        android:ems="10"
+                                        android:inputType="text"
+                                        android:textColor="@color/black"
+                                        android:textSize="14dp"
+                                        android:backgroundTint="@color/morado"
+                                        android:backgroundTintMode="multiply"/>
+
+                                </LinearLayout>
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cardViewImg"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginTop="5dp"
+                                   >
+
+                                    <TextView
+                                        android:id="@+id/btnBuscarComprobante"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginStart="5dp"
+                                        android:layout_marginTop="6dp"
+                                        android:foreground="@drawable/buscar" />
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginVertical="5dp"
+
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="20dp"
+                                        android:text="N° Comprobante"
+                                        android:textSize="12dp"
+                                        android:textColor="@color/black"/>
+
+                                    <Spinner
+                                        android:id="@+id/spinnerTipoComprobante"
+                                        android:layout_width="140dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="20dp"
+
+                                        />
+                                </LinearLayout>
+
+                                <EditText
+                                    android:id="@+id/etNumComprobante"
+                                    android:layout_width="100dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginTop="18dp"
+                                    android:enabled="false"
+                                    android:inputType="text"
+                                    android:textSize="14dp"
+                                    android:textColor="@color/black"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tv11"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="Tipo de Pago"
+                                android:textSize="12dp"
+                                android:textColor="@color/black"/>
+
+                            <Spinner
+                                android:id="@+id/spinnerTipoPago"
+                                android:layout_width="240dp"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="20dp"
+                                />
+
+                            <EditText
+                                android:id="@+id/etTipoPago"
+                                android:layout_width="179dp"
+                                android:layout_height="38dp"
+                                android:layout_marginStart="60dp"
+                                android:ems="10"
+                                android:hint="TipoPago"
+                                android:textSize="12dp"
+                                android:visibility="invisible" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="136dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/btnBuscarCliente"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="90dp"
+                                android:foreground="@drawable/buscar"
+                                android:visibility="invisible" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/llEspecial"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:paddingTop="15dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="90dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                               android:layout_gravity="right"
+                                android:layout_marginTop="5dp"
+                                android:text="Monto Total: S/ "
+                                android:textColor="@color/black"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:id="@+id/lblPagoRecibido"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:text="Pago: S/ "
+                                android:textColor="@color/black"
+                                android:textSize="14dp"
+
+                                android:visibility="invisible" />
+
+                            <TextView
+                                android:id="@+id/lblPagoCambio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="11dp"
+                                android:text="Cambio: S/ "
+                                android:textColor="@color/black"
+                                android:textSize="14dp"
+
+                                android:visibility="invisible" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvMontoTotal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:hint="0.00"
+                                android:textColor="@color/black"
+                                android:fontFamily="serif-monospace"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvPagoRecibido"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:hint="0.00"
+                                android:textColor="@color/black"
+                                android:fontFamily="serif-monospace"
+                                android:textSize="18dp"
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
+
+                            <TextView
+                                android:id="@+id/tvPagoCambio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="5dp"
+                                android:hint="0.00"
+                                android:fontFamily="serif-monospace"
+                                android:textColor="@color/black"
+                                android:textSize="18dp"
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/btnAgregarVenta"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:paddingTop="5dp"
+                        android:layout_marginStart="35dp"
+                        android:text="TERMINAR VENTA"
+                        android:textAlignment="center"
+                        android:textColor="@color/verde"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnCancelarVenta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+android:layout_marginStart="5dp"
+                        android:paddingTop="5dp"
+                        android:text="CERRAR"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
+

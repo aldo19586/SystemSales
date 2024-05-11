@@ -2,44 +2,104 @@ package com.aldosolis.systemsales
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aldosolis.systemsales.Datos.ConexionFirebase
+import com.aldosolis.systemsales.Datos.Procedimientos
+import com.aldosolis.systemsales.Entidad.Cliente
+import com.aldosolis.systemsales.Entidad.Comprobante
+import com.aldosolis.systemsales.Entidad.DetalleVenta
+import com.aldosolis.systemsales.Entidad.Inventario
+import com.aldosolis.systemsales.Entidad.Ventas
 import com.aldosolis.systemsales.adapter.ProductAdapter
+//import com.aldosolis.systemsales.adapter.ProductAdapter
 import com.aldosolis.systemsales.databinding.ActivityMainBinding
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.FirebaseApp
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import java.util.UUID
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
+import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.random.Random
 
 open class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    lateinit var firebaseDatabase:FirebaseDatabase
-    lateinit var databaseReference: DatabaseReference
+    lateinit var conexionFirebase:ConexionFirebase
+
+
+    var listaComprobantesFirebase = ArrayList<Comprobante>()
+    var listaVentasFirebase = ArrayList<Ventas>()
+    var listaClientesFirebase = ArrayList<Cliente>()
+
+    lateinit var mAdapter:ArrayAdapter<String>
+
+    lateinit var inventario: Inventario
+    lateinit var comprobante: Comprobante
+    lateinit var ventas: Ventas
+    lateinit var cliente: Cliente
     lateinit var productAdapter:ProductAdapter
+
+    lateinit var procedimientos: Procedimientos
+
+    var totalRegistrosVentas:Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        productAdapter = ProductAdapter(ProductProvider.productList)
+        conexionFirebase = ConexionFirebase(this)
+
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-        initRecyclerView()
-        initFirebase()
+
+        productAdapter = ProductAdapter(DetalleVentasTemporalProvider.detalleVentasList)
+        procedimientos = Procedimientos()
+
+
+        conexionFirebase.cargarDatosInventario()
+        conexionFirebase.cargarDatosProductos()
+        conexionFirebase.cargarDatosClientes()
+        conexionFirebase.cargarDatosComprobantes()
+        conexionFirebase.cargarDatosVentas()
+
         initUI()
-        listData()
+        initRecyclerView()
+
+
+
+        val simpleCallback = object : ItemTouchHelper.SimpleCallback(
+            0, // No se manejan movimientos de arrastre
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT // Se manejan deslizamientos hacia la izquierda y hacia la derecha
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                // No se manejan movimientos de arrastre, por lo que se devuelve falso
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    DetalleVentasTemporalProvider.detalleVentasList.removeAt(position)
+                    binding.recyclerProducts.adapter?.notifyItemRemoved(position)
+                }
+
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerProducts)
 
 
     }
@@ -48,59 +108,23 @@ open class MainActivity : AppCompatActivity() {
             openScan()
         }
         binding.faVoucher.setOnClickListener {
-            val totalPrecioXCantidad = binding.recyclerProducts.children.sumByDouble { itemView ->
-                val priceXamount = itemView.findViewById<TextView>(R.id.tvProductPricexAmount)
-                priceXamount.text.toString().toDoubleOrNull() ?: 0.0
-            }
-            Toast.makeText(this, "TOTAL A PAGAR: $totalPrecioXCantidad", Toast.LENGTH_SHORT).show()
-        }
-        binding.btnAddProduct.setOnClickListener {
-            if(binding.etName.text.isEmpty()){
-                Toast.makeText(this,"El campo nombre esta vacio",Toast.LENGTH_SHORT).show()
-            }else if(binding.etPrice.text.isEmpty()){
-                Toast.makeText(this,"El campo precio esta vacio",Toast.LENGTH_SHORT).show()
-            }else if(binding.etAmount.text.isEmpty()){
-                Toast.makeText(this,"El campo cantidad esta vacio",Toast.LENGTH_SHORT).show()
-            }
-            val product = Product()
-            product.setId(UUID.randomUUID().toString())
-            product.setName(binding.etName.text.toString())
-            product.setPrice(binding.etPrice.text.toString())
-            product.setAmount(binding.etAmount.text.toString())
+            val customDialog = CustomDialog(this@MainActivity,conexionFirebase,binding.recyclerProducts)
+            customDialog.show()
+            var Total  = customDialog.findViewById<TextView>(R.id.tvMontoTotal)
+            var cardView = customDialog.findViewById<CardView>(R.id.cardView)
+            var cardView1 = customDialog.findViewById<CardView>(R.id.cardView1)
+            var cardViewImg = customDialog.findViewById<CardView>(R.id.cardViewImg)
 
-            val myRef = databaseReference.child(product.getId())
-            myRef.setValue(product)
-            Toast.makeText(this,"Agregado exitosamente",Toast.LENGTH_SHORT).show()
+            Total.setText(sumarMontoTotal())
+            customDialog.window!!.setBackgroundDrawable(getDrawable(R.drawable.gris_background))
+            cardView.setBackgroundResource(R.drawable.white_background)
+            cardView1.setBackgroundResource(R.drawable.white_background)
+            cardViewImg.setBackgroundResource(R.drawable.white_background)
 
 
         }
-
     }
-    private fun listData(){
-        databaseReference.addValueEventListener(object:ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (productSnapshot in snapshot.children) {
-                    val product = productSnapshot.getValue(Product::class.java)
-                    ProductProvider.productList.add(product!!)
-                    binding.recyclerProducts.adapter?.notifyDataSetChanged()
-                }
-                //
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-
-    }
-    private fun initFirebase(){
-        FirebaseApp.initializeApp(this)
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        firebaseDatabase.setPersistenceEnabled(true)
-        databaseReference = firebaseDatabase.getReference().child("products")
-
-    }
     private fun openScan(){
         val integrator = IntentIntegrator(this)
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
@@ -112,27 +136,71 @@ open class MainActivity : AppCompatActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?):Unit {
         val result:IntentResult=IntentIntegrator.parseActivityResult(requestCode,resultCode,data)
-        if(result!=null){
-            if(result.contents==null) {
-                Toast.makeText(this, "LectorCancelada", Toast.LENGTH_LONG).show();
-            }else{
-                val product = Product(UUID.randomUUID().toString(),result.contents,"2.50","1")
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, "LectorCancelada", Toast.LENGTH_LONG).show()
+            } else {
+                var codigoExtraido=result.contents.substring(0, result.contents.indexOf("/"))
+                binding.etResultado.setText(codigoExtraido)
 
-                val myRef = databaseReference.child(product.getId())
-                myRef.setValue(product)
-                Toast.makeText(this,"Agregado exitosamente",Toast.LENGTH_SHORT).show()
+                // Buscar el producto con el código extraído en la lista de inventario
+                for (inventario in InventarioProvider.inventarioList) {
+                    var detalleVenta = DetalleVenta()
+                    // Verificar si ya existe un detalle de venta para este producto
+                    val detalleExistente = DetalleVentasTemporalProvider.detalleVentasList.find { it.codigoPro == inventario.codigoPro }
+
+                    if (detalleExistente == null && inventario.codigoPro == codigoExtraido) {
+
+                        val detalleVenta = DetalleVenta().apply {
+                            codigoPro = inventario.codigoPro
+                            fotoPro = inventario.fotoPro
+                            nombrePro = inventario.nombrePro
+                            presentacionPro = procedimientos.encontrarPresentacionPorCodigo(inventario.codigoPro!!)
+                            cantidad = inventario.cantidad
+                            precioVentaPro = inventario.precioVentaPro
+                            subTotalPro = (inventario.cantidad!!.toDouble() * inventario.precioVentaPro!!.toDouble()).toString()
+                        }
+
+                        DetalleVentasTemporalProvider.detalleVentasList.add(detalleVenta)
+                        binding.recyclerProducts.adapter?.notifyDataSetChanged()
 
 
+                    }
+
+                }
             }
-        }else{
+
+        } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
 
     }
+    private fun sumarMontoTotal():String{
+        // Variable para almacenar la suma total de montos
+        var Total = 0.0
+
+// Iterar sobre cada elemento en el RecyclerView
+        for (i in 0 until binding.recyclerProducts.childCount) {
+            // Obtener la vista de cada elemento en el RecyclerView
+            val view = binding.recyclerProducts.getChildAt(i)
+
+            // Encontrar el TextView que muestra el monto total en cada elemento
+            val montoTotalTextView = view.findViewById<TextView>(R.id.tvPrecioXcantidad)
+
+            // Obtener el valor del monto total de este elemento y sumarlo al totalAmount
+            val montoTotal = montoTotalTextView.text.toString().toDoubleOrNull() ?: 0.0
+            Total += montoTotal
+        }
+        val decimalFormat = DecimalFormat("0.00", DecimalFormatSymbols(Locale.US))
+        val montoTotalFormateado = decimalFormat.format(Total)
+        return montoTotalFormateado.toString()
+    }
     private fun initRecyclerView(){
         binding.recyclerProducts.layoutManager = LinearLayoutManager(this)
-        binding.recyclerProducts.adapter = ProductAdapter(ProductProvider.productList)
+        binding.recyclerProducts.adapter = productAdapter
 
 
     }
+
+
 }

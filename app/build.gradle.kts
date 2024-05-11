@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("com.journeyapps:zxing-android-embedded:4.1.0")
     implementation(libs.firebase.database)
+    implementation ("com.google.code.gson:gson:2.8.8")
     //FIREBASE
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
@@ -63,4 +64,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

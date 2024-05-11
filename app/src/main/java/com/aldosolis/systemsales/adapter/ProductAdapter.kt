@@ -3,14 +3,14 @@ package com.aldosolis.systemsales.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aldosolis.systemsales.Product
-import com.aldosolis.systemsales.ProductProvider
+import com.aldosolis.systemsales.DetalleVentasTemporalProvider
+import com.aldosolis.systemsales.Entidad.DetalleVenta
+import com.aldosolis.systemsales.Entidad.Inventario
+
 import com.aldosolis.systemsales.R
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
 
 
-class ProductAdapter(private val productList:List<Product>,
+class ProductAdapter(private val productList:MutableList <DetalleVenta>,
 ): RecyclerView.Adapter<ProductViewHolder>() {
 
 
